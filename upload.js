@@ -103,6 +103,13 @@ async function main() {
 
   const existingCaptions = await getExistingCaptions(youtube, videoId);
 
+  const canonicalNames = new Set(Object.values(TRACK_INFO).map(t => t.name));
+  const stale = existingCaptions.filter(c => !canonicalNames.has(c.snippet.name));
+  for (const caption of stale) {
+    console.log(`  Deleting stale caption track "${caption.snippet.name}"...`);
+    await youtube.captions.delete({ id: caption.id });
+  }
+
   for (const track of tracks) {
     await uploadCaption(youtube, videoId, existingCaptions, track.filePath, track.language, track.name);
   }

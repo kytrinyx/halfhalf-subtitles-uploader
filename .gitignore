@@ -1,0 +1,12 @@
+# credentials — never commit these
+client_secret.json
+token.json
+
+# dependencies
+node_modules/
+
+# macOS
+.DS_Store
+
+# Subtitle files
+data/

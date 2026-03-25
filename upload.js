@@ -8,7 +8,7 @@ const path = require('path');
 
 const CLIENT_SECRET_FILE = 'client_secret.json';
 const TOKEN_FILE = 'token.json';
-const DATA_DIR = 'data';
+const DATA_DIR = process.env.HALF_AND_HALF_SUBTITLES_DIR || 'data';
 
 // Maps file suffix to YouTube caption language code and track name
 const TRACK_INFO = {

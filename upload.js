@@ -14,7 +14,7 @@ const DATA_DIR = process.env.HALF_AND_HALF_SUBTITLES_DIR || 'data';
 const TRACK_INFO = {
   'en-en': { language: 'en', name: 'English captions' },
   'en-ko': { language: 'ko', name: '한국어 번역 자막' },
-  'ko-en': { language: 'en', name: 'English (translated from Korean)' },
+  'ko-en': { language: 'en', name: 'English translated from Korean' },
   'ko-ko': { language: 'ko', name: '한국어 받아쓰기' },
 };
 

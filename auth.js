@@ -59,18 +59,25 @@ function openBrowser(authUrl) {
 // ── main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
-  if (fs.existsSync(TOKEN_FILE)) {
-    console.log(`\nYou're already authenticated! (${TOKEN_FILE} exists)`);
-    console.log('Delete that file and run this again if you need to re-authenticate.\n');
-    return;
-  }
-
   const creds = loadClientSecret();
   const oauth2Client = new google.auth.OAuth2(
     creds.client_id,
     creds.client_secret,
     REDIRECT_URI
   );
+
+  if (fs.existsSync(TOKEN_FILE)) {
+    const tokens = JSON.parse(fs.readFileSync(TOKEN_FILE));
+    oauth2Client.setCredentials(tokens);
+    try {
+      await oauth2Client.getAccessToken();
+      console.log(`\nYou're already authenticated and the token is valid.\n`);
+      return;
+    } catch {
+      console.log('\nExisting token is expired or revoked. Re-authenticating...\n');
+      fs.unlinkSync(TOKEN_FILE);
+    }
+  }
 
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline', // gives us a refresh token so we don't need to re-auth later
